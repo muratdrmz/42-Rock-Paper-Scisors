@@ -1,9 +1,13 @@
 
 function getComputerChoice() {
   let rpsChoices = ["Rock", "Paper", "Scissors"];
-  let computerChoice = rpsChoices[Math.floor(Math.random() * 3)];
-  return computerChoice;
+  const randomNum=Math.floor(Math.random() * 3)
+  let computerChoice = rpsChoices[randomNum];
+  console.log(randomNum);
+  return computerChoice;  
 }
+
+console.log(getComputerChoice());
 
 function getResult(playerChoice, computerChoice) {
   if (playerChoice === computerChoice) {
@@ -63,3 +67,4 @@ function endGame() {
   result.innerText = "";
 }
 playGame();
+
