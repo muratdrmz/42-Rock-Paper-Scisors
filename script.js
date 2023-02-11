@@ -4,8 +4,6 @@ const handsDiv = document.getElementById("hands");
 const rpsButtons = document.querySelectorAll(".rpsButton");
 const endGameButton = document.getElementById("endGameButton");
 
-let playerScore = 0;
-
 function getComputerChoice() {
   let rpsChoices = ["Rock", "Paper", "Scissors"];
   const randomNum = Math.floor(Math.random() * 3);
@@ -13,42 +11,53 @@ function getComputerChoice() {
   return computerChoice;
 }
 
+let playerScore = 0;
+let computerScore = 0;
+
 function getResult(playerChoice, computerChoice) {
+  
   if (playerChoice === computerChoice) {
-    score = 0;
     result.innerText = "It's a Draw!";
   } else if (playerChoice === "Rock" && computerChoice === "Scissors") {
-    score = 1;
+    playerScore++;
     result.innerText = "You Win!";
   } else if (playerChoice === "Paper" && computerChoice === "Rock") {
-    score = 1;
+    playerScore++;
     result.innerText = "You Win!";
   } else if (playerChoice === "Scissors" && computerChoice === "Paper") {
-    score = 1;
+    playerScore++;
     result.innerText = "You Win!";
   } else {
-    score = -1;
+    computerScore ++;
     result.innerText = "You Lose!";
-  }
-  return score;
+  } 
 }
 
  rpsButtons.forEach((rpsButton)=>{
   rpsButton.addEventListener('click',()=>{
     const playerChoice=rpsButton.value;
-    const computerChoice = getComputerChoice();
-    const score = getResult(playerChoice, computerChoice);
-    playerScore += score;
-    handsDiv.innerText = `👱 ${playerChoice} vs  ${computerChoice}🤖 `;
-    playerScoreDiv.innerText = `Your score: ${playerScore}`;
-  })
+    const computerChoice=getComputerChoice();
+    getResult(playerChoice, computerChoice);  
+    playerScoreDiv.innerText = `Your Score: ${playerScore} && Computer Score:${computerScore}`;
+    handsDiv.innerText = `👱 ${playerChoice} vs  ${computerChoice}🤖 `; 
+    if(computerScore===10){
+      playerScoreDiv.innerText = "Computer Wins";
+      resultDiv.innerText = "Game Over";
+      handsDiv.innerText = "🤖";
+    }else if(playerScore===10){
+      playerScoreDiv.innerText = "You Won";
+      resultDiv.innerText = "Game Over";
+      handsDiv.innerText = "👱";
+      
+    }
+   })
  })
 
 endGameButton.addEventListener('click',endGame)
 
 function endGame() {
   playerScoreDiv.innerText = "";
-  result.innerText = "";
-  hands.innerText = "";
+  resultDiv.innerText = "";
+  handsDiv.innerText = "";
 }
 
