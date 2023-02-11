@@ -1,70 +1,54 @@
+const resultDiv = document.getElementById("result");
+const playerScoreDiv = document.getElementById("player-score");
+const handsDiv = document.getElementById("hands");
+const rpsButtons = document.querySelectorAll(".rpsButton");
+const endGameButton = document.getElementById("endGameButton");
+
+let playerScore = 0;
 
 function getComputerChoice() {
   let rpsChoices = ["Rock", "Paper", "Scissors"];
-  const randomNum=Math.floor(Math.random() * 3)
+  const randomNum = Math.floor(Math.random() * 3);
   let computerChoice = rpsChoices[randomNum];
-  console.log(randomNum);
-  return computerChoice;  
+  return computerChoice;
 }
-
-console.log(getComputerChoice());
 
 function getResult(playerChoice, computerChoice) {
   if (playerChoice === computerChoice) {
     score = 0;
+    result.innerText = "It's a Draw!";
   } else if (playerChoice === "Rock" && computerChoice === "Scissors") {
     score = 1;
+    result.innerText = "You Win!";
   } else if (playerChoice === "Paper" && computerChoice === "Rock") {
     score = 1;
+    result.innerText = "You Win!";
   } else if (playerChoice === "Scissors" && computerChoice === "Paper") {
     score = 1;
+    result.innerText = "You Win!";
   } else {
     score = -1;
+    result.innerText = "You Lose!";
   }
- return score;
+  return score;
 }
 
-function showResult(score, playerChoice, computerChoice) {
-  let result = document.getElementById("result");
-  switch (score) {
-    case -1:
-      result.innerText = "You Lose!";
-      break;
-    case 0:
-      result.innerText = "It's a Draw!";
-      break;
-    case 1:
-      result.innerText = "You Win!";
-      break;
-  }
-  let playerScore = document.getElementById("player-score");
-  let hands = document.getElementById("hands");
+ rpsButtons.forEach((rpsButton)=>{
+  rpsButton.addEventListener('click',()=>{
+    const playerChoice=rpsButton.value;
+    const computerChoice = getComputerChoice();
+    const score = getResult(playerChoice, computerChoice);
+    playerScore += score;
+    handsDiv.innerText = `👱 ${playerChoice} vs  ${computerChoice}🤖 `;
+    playerScoreDiv.innerText = `Your score: ${playerScore}`;
+  })
+ })
 
-  playerScore.innerText = `${Number(playerScore.innerText) + score}`;
-  hands.innerText = `👱 ${playerChoice} vs 🤖  ${computerChoice}`;
-}
-
-function onClickRPS(playerChoice) {
-  const computerChoice = getComputerChoice();
-  const score = getResult(playerChoice.value, computerChoice);
-  showResult(score, playerChoice.value, computerChoice);
-}
-
-function playGame() {
-  let rpsButtons = document.querySelectorAll(".rpsButton");
-  rpsButtons.forEach((rpsButton) => {
-    rpsButton.onclick = () => onClickRPS(rpsButton);
-  });
-  let endGameButton = document.getElementById("endGameButton");
-  endGameButton.onclick = () => endGame();
-}
+endGameButton.addEventListener('click',endGame)
 
 function endGame() {
-  let playerScore = document.getElementById("player-score");
-  let hands = document.getElementById("hands");
-  let result = document.getElementById("result");
-  playerScore.innerText = "";
+  playerScoreDiv.innerText = "";
   result.innerText = "";
+  hands.innerText = "";
 }
-playGame();
 
